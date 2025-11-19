@@ -213,10 +213,15 @@ sudo systemctl start hiqode-invoice
 
 
 node_modules/
+
 npm-debug.log
+
 data.sqlite3
+
 .env
+
 *.log
+
 .DS_Store
 
 

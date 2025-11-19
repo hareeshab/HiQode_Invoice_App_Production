@@ -210,6 +210,8 @@ cp /opt/backups/data-YYYY-MM-DD.sqlite3 /opt/hiqode-invoice-secure/data.sqlite3
 sudo systemctl start hiqode-invoice
 
 📌 Recommended .gitignore
+
+
 node_modules/
 npm-debug.log
 data.sqlite3

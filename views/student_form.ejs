@@ -1,0 +1,24 @@
+<%- include("layout", { body: null }) %>
+
+<section class="section-header">
+  <h1>New Student</h1>
+  <a class="btn" href="/students">Back</a>
+</section>
+
+<form class="form" method="POST" action="/students">
+  <div class="form-row">
+    <label>Full Name</label>
+    <input type="text" name="name" required />
+  </div>
+  <div class="form-row">
+    <label>Email</label>
+    <input type="email" name="email" />
+  </div>
+  <div class="form-row">
+    <label>Phone</label>
+    <input type="text" name="phone" />
+  </div>
+  <div class="form-actions">
+    <button class="btn primary" type="submit">Save</button>
+  </div>
+</form>

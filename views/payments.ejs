@@ -1,0 +1,79 @@
+<%- include("layout", { body: null }) %>
+
+<section class="section-header">
+  <div>
+    <h1>Payments / Installments</h1>
+    <p class="subtext">
+      <strong>Student:</strong> <%= enrollment.student_name %> &nbsp;|&nbsp;
+      <strong>Course:</strong> <%= enrollment.course_name %> &nbsp;|&nbsp;
+      <strong>Invoice #:</strong> <%= enrollment.invoice_number %>
+    </p>
+  </div>
+  <a class="btn" href="/enrollments">Back to Enrollments</a>
+</section>
+
+<div class="split">
+  <div class="split-left">
+    <h2 class="h-small">Existing Payments</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Amount (₹)</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (!payments.length) { %>
+          <tr>
+            <td colspan="3" class="empty">No payments yet.</td>
+          </tr>
+        <% } %>
+
+        <% payments.forEach(p => { %>
+          <tr>
+            <td><%= p.payment_date %></td>
+            <td><%= p.amount %></td>
+            <td><%= p.note || "-" %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="split-right">
+    <h2 class="h-small">Add Payment</h2>
+    <form class="form" method="POST" action="/enrollments/<%= enrollment.id %>/payments">
+      <div class="form-row">
+        <label>Payment Date</label>
+        <input type="date" name="payment_date" value="<%= today %>" />
+      </div>
+      <div class="form-row">
+        <label>Amount (₹)</label>
+        <input type="number" name="amount" min="0" required />
+      </div>
+      <div class="form-row">
+        <label>Note (optional)</label>
+        <input type="text" name="note" />
+      </div>
+      <div class="form-actions">
+        <button class="btn primary" type="submit">Add Payment</button>
+      </div>
+    </form>
+
+    <div class="summary-card">
+      <div class="summary-row">
+        <span>Total (with GST):</span>
+        <span>₹ <%= total %></span>
+      </div>
+      <div class="summary-row">
+        <span>Total Paid:</span>
+        <span>₹ <%= enrollment.amount_paid %></span>
+      </div>
+      <div class="summary-row">
+        <span>Balance:</span>
+        <span>₹ <%= balance %></span>
+      </div>
+    </div>
+  </div>
+</div>

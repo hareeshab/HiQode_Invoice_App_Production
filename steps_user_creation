@@ -1,0 +1,124 @@
+1️⃣ Create manage-users.js
+
+In your invoice app folder (the one with server.js and db.js):
+
+cd /opt/hiqode-invoice-secure   # or your actual path
+nano manage-users.js
+
+
+Paste this full code:
+
+// manage-users.js
+const bcrypt = require("bcryptjs");
+const db = require("./db");
+
+const [, , cmd, username, password] = process.argv;
+
+async function main() {
+  if (!cmd || ["create", "change", "list"].indexOf(cmd) === -1) {
+    console.log("Usage:");
+    console.log("  node manage-users.js list");
+    console.log("  node manage-users.js create <username> <password>");
+    console.log("  node manage-users.js change <username> <newPassword>");
+    process.exit(1);
+  }
+
+  if (cmd === "list") {
+    const rows = db.prepare("SELECT id, username FROM users ORDER BY id").all();
+    console.log("Users:");
+    rows.forEach((u) => console.log(`- [${u.id}] ${u.username}`));
+    process.exit(0);
+  }
+
+  if (!username || !password) {
+    console.error("Username and password are required.");
+    process.exit(1);
+  }
+
+  const hash = bcrypt.hashSync(password, 10);
+
+  if (cmd === "create") {
+    try {
+      db.prepare(
+        "INSERT INTO users (username, password_hash) VALUES (?, ?)"
+      ).run(username.trim(), hash);
+      console.log(`✅ User created: ${username}`);
+    } catch (err) {
+      console.error("Error creating user:", err.message);
+    }
+  }
+
+  if (cmd === "change") {
+    const user = db
+      .prepare("SELECT id FROM users WHERE username = ?")
+      .get(username.trim());
+
+    if (!user) {
+      console.error("User not found:", username);
+      process.exit(1);
+    }
+
+    db.prepare("UPDATE users SET password_hash = ? WHERE id = ?").run(
+      hash,
+      user.id
+    );
+    console.log(`✅ Password updated for user: ${username}`);
+  }
+
+  process.exit(0);
+}
+
+main();
+
+
+Save & exit (Ctrl+O, Enter, Ctrl+X).
+
+No restart required – this script just talks directly to the same DB as the app.
+
+2️⃣ Create a new login user
+
+Example: create a user staff1 with password Staff@123:
+
+cd /opt/hiqode-invoice-secure
+
+node manage-users.js create staff1 Staff@123
+
+
+Output should be something like:
+
+✅ User created: staff1
+
+
+Now you can log in to the app with:
+
+Username: staff1
+
+Password: Staff@123
+
+3️⃣ Change password for an existing user
+
+Example 1: change admin password:
+
+node manage-users.js change admin NewStrongPass@123
+
+
+Example 2: change staff1 password:
+
+node manage-users.js change staff1 HiqodeDevOps@2025
+
+
+You can’t see the old password (for security), but you can always reset it like this.
+
+4️⃣ List all users
+
+To quickly check which usernames exist:
+
+node manage-users.js list
+
+
+You’ll see:
+
+Users:
+- [1] admin
+- [2] staff1
+...

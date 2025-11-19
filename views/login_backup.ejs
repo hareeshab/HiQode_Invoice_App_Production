@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login - HiQode Invoice</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="login-body">
+    <div class="login-wrapper">
+      <div class="login-card">
+        <div class="login-header">
+          <img src="/images/hiqode-logo.png" class="logo large" alt="HiQode" />
+          <div>
+            <div class="brand-title">HiQode Innovations</div>
+            <div class="brand-subtitle">Invoice Portal</div>
+          </div>
+        </div>
+
+        <% if (error) { %>
+          <div class="flash error"><%= error %></div>
+        <% } %>
+
+        <form method="POST" action="/login" class="form">
+          <div class="form-row">
+            <label>Username</label>
+            <input type="text" name="username" required />
+          </div>
+          <div class="form-row">
+            <label>Password</label>
+            <input type="password" name="password" required />
+          </div>
+          <div class="form-actions">
+            <button class="btn primary" type="submit">Login</button>
+          </div>
+        </form>
+
+        <p class="hint small">
+          Default admin: <strong>admin / Admin@123</strong>. Please change password after first login.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

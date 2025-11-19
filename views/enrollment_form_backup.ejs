@@ -1,0 +1,68 @@
+<%- include("layout", { body: null }) %>
+
+<section class="section-header">
+  <h1>New Enrollment</h1>
+  <a class="btn" href="/enrollments">Back</a>
+</section>
+
+<form class="form" method="POST" action="/enrollments">
+  <div class="form-row">
+    <label>Student</label>
+    <select name="student_id" required>
+      <option value="">Select student</option>
+      <% students.forEach(s => { %>
+        <option value="<%= s.id %>"><%= s.name %> (<%= s.email %>)</option>
+      <% }) %>
+    </select>
+    <div class="hint">
+      Need a new student? <a href="/students/new" target="_blank">Add student</a> and refresh.
+    </div>
+  </div>
+
+  <div class="form-row">
+    <label>Course</label>
+    <select name="course_id" required>
+      <option value="">Select course</option>
+      <% courses.forEach(c => { %>
+        <option value="<%= c.id %>"><%= c.name %> (₹<%= c.base_amount %>)</option>
+      <% }) %>
+    </select>
+    <div class="hint">
+      Need a new course? <a href="/courses/new" target="_blank">Add course</a> and refresh.
+    </div>
+  </div>
+
+  <div class="form-row">
+    <label>Invoice Number</label>
+    <input type="text" name="invoice_number" required value="<%= defaultInvoiceNumber %>" />
+  </div>
+
+  <div class="form-row">
+    <label>Invoice Date</label>
+    <input type="date" name="invoice_date" required value="<%= today %>" />
+  </div>
+
+  <div class="form-row">
+    <label>GST Rate (%)</label>
+    <input type="number" name="gst_rate" value="18" min="0" />
+  </div>
+
+  <div class="form-row">
+    <label>PAN (optional)</label>
+    <input type="text" name="pan" />
+    <div class="hint">Example: ABCDE1234F (10 characters). Leave blank if not available.</div>
+  </div>
+
+  <div class="form-row">
+    <label>Initial Amount Paid (₹)</label>
+    <input type="number" name="amount_paid" value="0" min="0" />
+    <div class="hint">
+      This will be stored as the first payment (installment). You can add more payments later.
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button class="btn primary" type="submit">Create Enrollment &amp; Invoice</button>
+  </div>
+</form>
+

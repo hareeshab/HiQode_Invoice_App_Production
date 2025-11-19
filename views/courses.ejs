@@ -1,0 +1,39 @@
+<%- include("layout", { body: null }) %>
+
+<section class="section-header">
+  <h1>Courses</h1>
+  <a class="btn primary" href="/courses/new">+ New Course</a>
+</section>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Course</th>
+      <th>Base Amount (₹)</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if (!courses.length) { %>
+      <tr>
+        <td colspan="4" class="empty">No courses yet.</td>
+      </tr>
+    <% } %>
+
+    <% courses.forEach(c => { %>
+      <tr>
+        <td><%= c.id %></td>
+        <td><%= c.name %></td>
+        <td><%= c.base_amount %></td>
+        <td class="actions">
+          <form method="POST" action="/courses/<%= c.id %>/delete"
+                onsubmit="return confirm('Delete this course and related enrollments & payments?');">
+            <button class="btn small danger" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

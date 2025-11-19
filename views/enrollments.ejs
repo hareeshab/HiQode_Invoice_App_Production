@@ -1,0 +1,53 @@
+<%- include("layout", { body: null }) %>
+
+<section class="section-header">
+  <h1>Enrollments</h1>
+  <a class="btn primary" href="/enrollments/new">+ New Enrollment</a>
+</section>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Invoice #</th>
+      <th>Student</th>
+      <th>Course</th>
+      <th>Date</th>
+      <th>Paid (₹)</th>
+      <th>Balance (₹)</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (!enrollments.length) { %>
+      <tr>
+        <td colspan="8" class="empty">No enrollments yet.</td>
+      </tr>
+    <% } %>
+
+    <% enrollments.forEach(e => { 
+         const gstAmount = Math.round((e.base_amount * e.gst_rate) / 100);
+         const total = e.base_amount + gstAmount;
+         const balance = total - e.amount_paid;
+    %>
+      <tr>
+        <td><%= e.id %></td>
+        <td><%= e.invoice_number %></td>
+        <td><%= e.student_name %></td>
+        <td><%= e.course_name %></td>
+        <td><%= e.invoice_date %></td>
+        <td><%= e.amount_paid %></td>
+        <td><%= balance %></td>
+        <td class="actions">
+          <a class="btn small" href="/enrollments/<%= e.id %>/invoice" target="_blank">View</a>
+          <a class="btn small" href="/enrollments/<%= e.id %>/invoice.pdf">Download</a>
+          <a class="btn small" href="/enrollments/<%= e.id %>/payments">Payments</a>
+          <form method="POST" action="/enrollments/<%= e.id %>/delete"
+                onsubmit="return confirm('Delete this enrollment and all its payments?');">
+            <button class="btn small danger" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

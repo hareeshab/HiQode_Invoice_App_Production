@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HiQode Invoice App</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header class="top-bar">
+      <div class="brand">
+        <img src="/images/hiqode-logo.png" alt="HiQode" class="logo" />
+        <div>
+          <div class="brand-title">HiQode Innovations</div>
+          <div class="brand-subtitle">Davangere • Tumkur • Bangalore</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="/enrollments">Enrollments</a>
+        <a href="/students">Students</a>
+        <a href="/courses">Courses</a>
+        <% if (currentUser) { %>
+          <form method="POST" action="/logout" class="logout-form">
+            <span class="user-label"><%= currentUser.username %></span>
+            <button type="submit" class="btn small">Logout</button>
+          </form>
+        <% } %>
+      </nav>
+    </header>
+
+    <main class="container">
+      <%- body %>
+    </main>
+
+    <footer class="footer">
+      © <%= new Date().getFullYear() %> HiQode Innovations. All rights reserved.
+    </footer>
+  </body>
+</html>

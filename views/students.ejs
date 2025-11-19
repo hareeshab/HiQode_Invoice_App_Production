@@ -1,0 +1,39 @@
+<%- include("layout", { body: null }) %>
+
+<section class="section-header">
+  <h1>Students</h1>
+  <a class="btn primary" href="/students/new">+ New Student</a>
+</section>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if (!students.length) { %>
+      <tr><td colspan="5" class="empty">No students yet.</td></tr>
+    <% } %>
+
+    <% students.forEach(s => { %>
+      <tr>
+        <td><%= s.id %></td>
+        <td><%= s.name %></td>
+        <td><%= s.email %></td>
+        <td><%= s.phone %></td>
+        <td class="actions">
+          <form method="POST" action="/students/<%= s.id %>/delete"
+            onsubmit="return confirm('Delete student and all related enrollments & payments?');">
+            <button class="btn small danger" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

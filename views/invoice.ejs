@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Invoice <%= enrollment.invoice_number %> - HiQode Innovations</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body class="invoice-body">
+    <div class="invoice">
+      <header class="invoice-header">
+        <div class="invoice-brand">
+          <img src="<%= logoPath %>" alt="HiQode" class="logo large" />
+          <div>
+            <div class="brand-title">HiQode Innovations</div>
+            <div class="brand-subtitle">
+              GSTIN: 29ABCDE1234F1Z5<br />
+              #2317, Arka Building, 1st Main, 8th Cross,<br />
+              Vidhyanagara, Davanagere - 577005
+            </div>
+          </div>
+        </div>
+        <div class="invoice-meta">
+          <div class="tax-title">Tax Invoice</div>
+          <div>Invoice #: <strong><%= enrollment.invoice_number %></strong></div>
+          <div>Date: <%= enrollment.invoice_date %></div>
+        </div>
+      </header>
+
+      <section class="invoice-billed">
+        <div class="billed-to-label">Billed To:</div>
+        <div class="billed-to-content">
+          <div><%= enrollment.student_name %></div>
+          <div><%= enrollment.student_email || "" %></div>
+          <div><%= enrollment.student_phone || "" %></div>
+          <% if (enrollment.pan) { %>
+            <div>PAN: <%= enrollment.pan %></div>
+          <% } %>
+        </div>
+      </section>
+
+      <table class="invoice-table">
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th>Base (INR)</th>
+            <th>GST <%= enrollment.gst_rate %>% (INR)</th>
+            <th>Total (INR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= enrollment.course_name %></td>
+            <td><%= enrollment.base_amount %></td>
+            <td><%= gstAmount %></td>
+            <td><%= total %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <section class="invoice-summary">
+        <div class="summary-row">
+          <span>Amount Paid (INR):</span>
+          <span><%= enrollment.amount_paid %></span>
+        </div>
+        <div class="summary-row">
+          <span>Balance (INR):</span>
+          <span><%= balance %></span>
+        </div>
+      </section>
+
+      <section class="invoice-footer">
+        <p>
+          Terms: All fees include 18% GST. Payments are non-refundable once the course starts.
+          For support, contact info@hiqode.in.
+        </p>
+
+        <p>
+          Thank you for choosing HiQode Innovations. For support, please contact the HiQode
+          team at https://www.hiqode.in
+        </p>
+
+        <p style="margin-top: 18px; font-size: 11px; color: #666;">
+          This is a computer-generated invoice and does not require a physical signature.
+        </p>
+      </section>
+    </div>
+  </body>
+</html>
+

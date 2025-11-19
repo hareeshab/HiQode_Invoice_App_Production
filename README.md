@@ -82,3 +82,5 @@ Built with **Node.js + Express + SQLite + PDFKit** and deployable on **AWS EC2 w
 │       └── watermark.png (optional)
 │
 └── package.json
+#### User Creation in Invoice app
+## node manage-users.js create staff1 Staff@123

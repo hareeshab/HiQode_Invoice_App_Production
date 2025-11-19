@@ -1,39 +1,58 @@
 # HiQode Invoice App
 
-Small, production-ready invoice generator used by **HiQode Innovations**.
+A clean, production-ready invoice generator used by **HiQode Innovations** for training program billing, student fee management, and GST-compliant invoicing.  
+Built with **Node.js + Express + SQLite + PDFKit** and deployable on **AWS EC2 with Nginx + HTTPS**.
+
+---
 
 ## 🚀 Features
 
-- Manage **Students**
-  - Name, email, phone
-- Manage **Courses**
-  - Course name
-  - Base fee (INR)
-- Manage **Enrollments / Invoices**
-  - Auto invoice number (e.g. `HIQ-2025-0001`)
-  - Invoice date
-  - GST rate (default 18%)
-  - Optional **PAN** field
-  - Initial payment (first installment)
-  - Downloadable **PDF invoice** (A4)
-  - Clean footer with GST & disclaimer
-  - Centered **diagonal “HiQode Innovations” watermark** in the PDF
-- **Installment payments**
-  - Add multiple payments for each enrollment
-  - See total paid and outstanding balance
-- **Auth**
-  - Simple login with `users` table (default admin user created automatically)
+### 🔹 Student Management
+- Add / delete students  
+- Store email + phone  
+
+### 🔹 Course Management
+- Add / delete courses  
+- Set base price for each course  
+
+### 🔹 Enrollment / Invoice Management
+- Assign students to courses  
+- Auto-invoice numbering (`HIQ-YYYY-XXXX`)  
+- Invoice date selection  
+- GST rate (default 18%)  
+- Optional **PAN** field  
+- First installment entry  
+
+### 🔹 Installment Payments
+- Add multiple payments  
+- View payment history  
+- Auto-calculate **balance**  
+
+### 🔹 Professional GST Invoice (PDF)
+- HiQode branding & address  
+- GST number displayed  
+- Clean pricing table  
+- Final price breakdown  
+- Summary block (Paid / Balance)  
+- Footer with terms  
+- **Diagonal centered watermark** ("HiQode Innovations")  
+- Download as A4 PDF  
+
+### 🔹 Secure Login
+- Default admin auto-created  
+- Username/password stored securely  
+- Session-protected routes  
 
 ---
 
 ## 🏗 Tech Stack
 
-- Node.js (Express)
-- EJS templates
-- SQLite (via `better-sqlite3`)
-- PDFKit (PDF generation)
-- `express-session` + `bcryptjs` for login
-- Systemd service + Nginx reverse proxy (on Ubuntu EC2)
+- **Backend:** Node.js (Express)
+- **Database:** SQLite (`better-sqlite3`)
+- **PDF:** PDFKit
+- **Auth:** express-session + bcryptjs
+- **Frontend:** EJS templates + CSS
+- **Deployment:** systemd + Nginx reverse proxy + HTTPS (Certbot)
 
 ---
 
@@ -41,20 +60,25 @@ Small, production-ready invoice generator used by **HiQode Innovations**.
 
 ```text
 .
-├── server.js          # Express app + routes + PDF generation
-├── db.js              # SQLite schema + default admin seed
-├── data.sqlite3       # SQLite database (auto-created)
-├── views/             # EJS templates (layout, forms, invoice, login, etc.)
+├── server.js                # Main Express app
+├── db.js                    # Database schema + seed admin
+├── data.sqlite3             # SQLite DB (auto-created)
+│
+├── views/                   # EJS pages
+│   ├── layout.ejs
+│   ├── login.ejs
+│   ├── students.ejs
+│   ├── courses.ejs
+│   ├── enrollments.ejs
+│   ├── enrollment_form.ejs
+│   ├── payments.ejs
+│   ├── invoice.ejs
+│   └── *_form.ejs
+│
 ├── public/
 │   ├── css/style.css
 │   └── images/
-│       ├── hiqode-logo.png      # Logo in header
-│       └── watermark.png        # (optional) not used now; watermark is text-based
+│       ├── hiqode-logo.png
+│       └── watermark.png (optional)
+│
 └── package.json
-
-
-
-
-
-
-
